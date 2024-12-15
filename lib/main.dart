@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kanban_board/routes.dart';
+import 'package:kanban_board/services/db_service.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
+Future<void> main() async {
+  sqfliteFfiInit();
+
+  await DbService.setupDB();
+
   runApp(const MyApp());
 }
 
