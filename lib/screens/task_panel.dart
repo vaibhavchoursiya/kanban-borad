@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kanban_board/app_theme.dart';
-import 'package:kanban_board/providers/home_provider.dart';
 import 'package:kanban_board/providers/task_panel_provider.dart';
 import 'package:kanban_board/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
@@ -61,32 +60,41 @@ class _TaskPanelState extends State<TaskPanel> {
               ),
             )
           : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TaskColumn(
+                  headColor: Colors.red,
                   headText: "pending",
                   length: pendingList.length,
                   taskList: context.read<TaskPanelProvider>().pending,
-                  cardColor: AppTheme.primary,
+                  // cardColor: AppTheme.primary,
+                  cardColor: Colors.black54,
+
                   collectionName: widget.collectionName,
                 ),
                 const SizedBox(
-                  width: 50.0,
+                  width: 16.0,
                 ),
                 TaskColumn(
+                  headColor: Colors.yellow.shade700.withOpacity(0.9),
                   headText: "in progress",
                   length: inProgress.length,
                   taskList: context.read<TaskPanelProvider>().inProcess,
-                  cardColor: Colors.redAccent,
+                  cardColor: Colors.black54,
                   collectionName: widget.collectionName,
                 ),
                 const SizedBox(
-                  width: 50.0,
+                  width: 16.0,
                 ),
                 TaskColumn(
+                  headColor: Colors.green,
+
                   headText: "completed",
                   length: completedList.length,
                   taskList: context.read<TaskPanelProvider>().completed,
-                  cardColor: Colors.greenAccent,
+                  // cardColor: Colors.greenAccent,
+                  cardColor: Colors.black54,
+
                   collectionName: widget.collectionName,
                 ),
               ],
@@ -101,6 +109,7 @@ class TaskColumn extends StatelessWidget {
   final List taskList;
   final Color cardColor;
   final String collectionName;
+  final Color headColor;
   const TaskColumn({
     super.key,
     required this.headText,
@@ -108,6 +117,7 @@ class TaskColumn extends StatelessWidget {
     required this.taskList,
     required this.cardColor,
     required this.collectionName,
+    required this.headColor,
   });
 
   Future taskDialogBox(context) async {
@@ -175,16 +185,16 @@ class TaskColumn extends StatelessWidget {
           color: cardColor,
           child: Container(
             width: 300.0,
-            height: 600.0,
+            height: 500.0,
             padding: const EdgeInsets.all(18.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
-                  color: AppTheme.dark,
+                  color: headColor,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
                       topLeft: Radius.circular(30.0),
                     ),
                   ),
@@ -196,8 +206,9 @@ class TaskColumn extends StatelessWidget {
                       children: [
                         Text(
                           headText,
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.comicNeue(
                             color: AppTheme.light,
+                            fontWeight: FontWeight.bold,
                             fontSize: 15.0,
                           ),
                         ),
@@ -243,6 +254,17 @@ class TaskListWidget extends StatelessWidget {
         itemCount: length,
         itemBuilder: (context, index) {
           final task = taskList[index];
+          Color intColor = Colors.greenAccent;
+          switch (task.prority) {
+            case "high":
+              intColor = Colors.redAccent;
+              break;
+
+            case "low":
+              intColor = Colors.blueAccent.withOpacity(0.5);
+
+              break;
+          }
           return Card(
             borderOnForeground: false,
             color: AppTheme.dark,
@@ -254,6 +276,15 @@ class TaskListWidget extends StatelessWidget {
               height: 60.0,
               child: Row(
                 children: [
+                  Container(
+                    width: 20.0,
+                    decoration: BoxDecoration(
+                        color: intColor,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                        )),
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
