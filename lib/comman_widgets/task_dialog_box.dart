@@ -26,7 +26,8 @@ Future taskDialogBox(context, String collectionName) async {
                 foregroundColor: AppTheme.light,
               ),
               onPressed: () {
-                context.read<TaskPanelProvider>().resetAddTaskScreen();
+                context.read<TaskPanelProvider>().resetController();
+                context.read<TaskPanelProvider>().resetValues();
                 context.pop();
               },
               icon: Icon(
@@ -43,7 +44,6 @@ Future taskDialogBox(context, String collectionName) async {
               onPressed: () async {
                 final taskPanelProvider = context.read<TaskPanelProvider>();
                 await taskPanelProvider.addTaskFunc(collectionName);
-                // taskPanelProvider.resetAddTaskScreen();
 
                 if (context.mounted) {
                   context.pop();
@@ -82,7 +82,8 @@ Future updateDialogBox(
                 foregroundColor: AppTheme.light,
               ),
               onPressed: () {
-                context.read<TaskPanelProvider>().resetAddTaskScreen();
+                context.read<TaskPanelProvider>().resetController();
+                context.read<TaskPanelProvider>().resetValues();
                 context.pop();
               },
               icon: Icon(

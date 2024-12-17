@@ -44,12 +44,13 @@ class TaskPanelProvider extends ChangeNotifier {
     resetValues();
   }
 
+  /// Get all the tasks based on collectionName.
+  /// And put then in different List based on task.status.
   Future getAllTasksFunc(String collectionName) async {
     resetStatusList();
 
     final List tasksList = await DbService.getAllTasks(collectionName);
-    // print(tasksList);
-    // print(collectionName);
+
     if (tasksList.isNotEmpty) {
       for (var i = 0; i < tasksList.length; i++) {
         switch (tasksList[i]["status"]) {
@@ -79,9 +80,9 @@ class TaskPanelProvider extends ChangeNotifier {
     await DbService.addTask(task);
 
     // Clean = >  statusLists, controller, values
-    await getAllTasksFunc(colletionName);
     resetController();
     resetValues();
+    await getAllTasksFunc(colletionName);
   }
 
   Future deleteTaskFunc(int id, String collectionName) async {
@@ -90,6 +91,7 @@ class TaskPanelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set all controllers and value.
   setDataInControllers(Task task) {
     taskTitleController.text = task.taskTitle;
     descriptionController.text = task.description;
@@ -110,9 +112,9 @@ class TaskPanelProvider extends ChangeNotifier {
     await DbService.updateTask(task);
 
     // Clean = >  statusLists, controller, values
-    await getAllTasksFunc(collectionName);
     resetController();
     resetValues();
+    await getAllTasksFunc(collectionName);
   }
 
   reorderListFunc(int oldIndex, int newIndex, String taskStatus) {
@@ -143,6 +145,6 @@ class TaskPanelProvider extends ChangeNotifier {
 
   resetProvider() {
     initialLoader = true;
-    resetStatusList();
+    resetAddTaskScreen();
   }
 }

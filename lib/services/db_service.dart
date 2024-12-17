@@ -9,6 +9,9 @@ import 'package:path/path.dart' as p;
 class DbService {
   static late Database db;
 
+  /// SetupDB function get a application doucment dir
+  /// create a path for appdb.db file and open the database.
+  /// and create CollectionName & Kanban Table.
   static Future<void> setupDB() async {
     var databaseFactory = databaseFactoryFfi;
 
@@ -66,7 +69,6 @@ class DbService {
   }
 
   static Future updateTask(Task task) async {
-    print(task.taskId);
     await db.rawUpdate(
         'UPDATE kanban SET taskTitle = ?, description = ?, prority = ?, status = ? WHERE id = ?',
         [
