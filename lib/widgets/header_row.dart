@@ -98,23 +98,23 @@ class _HeaderRowState extends State<HeaderRow> {
         const SizedBox(
           width: 20.0,
         ),
-        ElevatedButton.icon(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.greenAccent,
-            foregroundColor: AppTheme.light,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-          icon: Icon(
-            Icons.watch,
-            color: AppTheme.light,
-          ),
-          label: Text(
-            DateTime.now().toString(),
-          ),
-        ),
+        // ElevatedButton.icon(
+        //   onPressed: () {},
+        //   style: ElevatedButton.styleFrom(
+        //     backgroundColor: Colors.greenAccent,
+        //     foregroundColor: AppTheme.light,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(10.0),
+        //     ),
+        //   ),
+        //   icon: Icon(
+        //     Icons.watch,
+        //     color: AppTheme.light,
+        //   ),
+        //   label: Text(
+        //     DateTime.now().toString(),
+        //   ),
+        // ),
       ],
     );
   }
