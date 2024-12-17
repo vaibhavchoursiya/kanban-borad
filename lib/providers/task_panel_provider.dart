@@ -97,7 +97,6 @@ class TaskPanelProvider extends ChangeNotifier {
     descriptionController.text = task.description;
     priorityValue = task.prority;
     statusValue = task.status;
-    // notifyListeners();
   }
 
   Future updateTaskFunc(collectionName, int id) async {

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 Future taskDialogBox(context, String collectionName) async {
   // show dialog
   await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -65,6 +66,7 @@ Future updateDialogBox(
     context, Function taskFunc, String collectionName, int taskId) async {
   // show dialog
   await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
