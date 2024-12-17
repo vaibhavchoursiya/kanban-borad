@@ -65,6 +65,19 @@ class DbService {
     await db.rawDelete('''DELETE FROM kanban WHERE id = ?''', [id]);
   }
 
+  static Future updateTask(Task task) async {
+    print(task.taskId);
+    await db.rawUpdate(
+        'UPDATE kanban SET taskTitle = ?, description = ?, prority = ?, status = ? WHERE id = ?',
+        [
+          task.taskTitle,
+          task.description,
+          task.prority,
+          task.status,
+          task.taskId
+        ]);
+  }
+
   // add, delete, update, get all
 
   static Future<void> addCollectionName(String collectionName) async {

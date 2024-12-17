@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kanban_board/app_theme.dart';
+import 'package:kanban_board/comman_widgets/task_dialog_box.dart';
 import 'package:kanban_board/providers/task_panel_provider.dart';
 import 'package:kanban_board/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
@@ -134,61 +135,6 @@ class TaskColumn extends StatelessWidget {
     required this.headColor,
   });
 
-  Future taskDialogBox(context) async {
-    // show dialog
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: AppTheme.dark,
-            title: Text(
-              "Add Task",
-              style: GoogleFonts.comicNeue(
-                color: AppTheme.light,
-              ),
-            ),
-            actions: [
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  foregroundColor: AppTheme.light,
-                ),
-                onPressed: () {
-                  context.read<TaskPanelProvider>().resetAddTaskScreen();
-                  context.pop();
-                },
-                icon: Icon(
-                  Icons.cancel,
-                  color: AppTheme.light,
-                ),
-                label: const Text("cancel"),
-              ),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent.shade400,
-                  foregroundColor: AppTheme.light,
-                ),
-                onPressed: () async {
-                  final taskPanelProvider = context.read<TaskPanelProvider>();
-                  await taskPanelProvider.addTaskFunc(collectionName);
-                  taskPanelProvider.resetAddTaskScreen();
-
-                  if (context.mounted) {
-                    context.pop();
-                  }
-                },
-                icon: Icon(
-                  Icons.save,
-                  color: AppTheme.light,
-                ),
-                label: const Text("save"),
-              )
-            ],
-            content: const AddTaskScreen(),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -228,7 +174,7 @@ class TaskColumn extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () async {
-                            await taskDialogBox(context);
+                            await taskDialogBox(context, collectionName);
                           },
                           icon: Icon(
                             Icons.add,
@@ -288,52 +234,61 @@ class TaskListWidget extends StatelessWidget {
           return ReorderableDragStartListener(
             key: ValueKey(task.taskId),
             index: index,
-            child: Card(
-              color: AppTheme.dark,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: 60.0,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 20.0,
-                      decoration: BoxDecoration(
-                          color: intColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                          )),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          task.taskTitle,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: GoogleFonts.comicNeue(
-                            color: AppTheme.light.withOpacity(0.8),
+            child: GestureDetector(
+              onTap: () async {
+                final taskPanelProvider = context.read<TaskPanelProvider>();
+                taskPanelProvider.setDataInControllers(task);
+
+                await updateDialogBox(context, taskPanelProvider.updateTaskFunc,
+                    task.collectionName, task.taskId);
+              },
+              child: Card(
+                color: AppTheme.dark,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 60.0,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 20.0,
+                        decoration: BoxDecoration(
+                            color: intColor,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                            )),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            task.taskTitle,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: GoogleFonts.comicNeue(
+                              color: AppTheme.light.withOpacity(0.8),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        final taskPanelProvider =
-                            context.read<TaskPanelProvider>();
-                        await taskPanelProvider.deleteTaskFunc(
-                            task.taskId, task.collectionName);
-                      },
-                      icon: Icon(
-                        Icons.delete_outline,
-                        color: AppTheme.light,
-                        size: 16.0,
+                      IconButton(
+                        onPressed: () async {
+                          final taskPanelProvider =
+                              context.read<TaskPanelProvider>();
+                          await taskPanelProvider.deleteTaskFunc(
+                              task.taskId, task.collectionName);
+                        },
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: AppTheme.light,
+                          size: 16.0,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

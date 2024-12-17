@@ -28,19 +28,28 @@ class TaskPanelProvider extends ChangeNotifier {
     completed.clear();
   }
 
-  resetAddTaskScreen() {
+  resetController() {
     taskTitleController.clear();
     descriptionController.clear();
+  }
+
+  resetValues() {
     priorityValue = "low";
     statusValue = "pending";
+  }
+
+  resetAddTaskScreen() {
+    resetStatusList();
+    resetController();
+    resetValues();
   }
 
   Future getAllTasksFunc(String collectionName) async {
     resetStatusList();
 
     final List tasksList = await DbService.getAllTasks(collectionName);
-    print(tasksList);
-    print(collectionName);
+    // print(tasksList);
+    // print(collectionName);
     if (tasksList.isNotEmpty) {
       for (var i = 0; i < tasksList.length; i++) {
         switch (tasksList[i]["status"]) {
@@ -56,6 +65,7 @@ class TaskPanelProvider extends ChangeNotifier {
         }
       }
     }
+    notifyListeners();
   }
 
   Future addTaskFunc(colletionName) async {
@@ -67,8 +77,11 @@ class TaskPanelProvider extends ChangeNotifier {
         collectionName: colletionName);
 
     await DbService.addTask(task);
+
+    // Clean = >  statusLists, controller, values
     await getAllTasksFunc(colletionName);
-    notifyListeners();
+    resetController();
+    resetValues();
   }
 
   Future deleteTaskFunc(int id, String collectionName) async {
@@ -77,7 +90,30 @@ class TaskPanelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future updateTaskFunc() async {}
+  setDataInControllers(Task task) {
+    taskTitleController.text = task.taskTitle;
+    descriptionController.text = task.description;
+    priorityValue = task.prority;
+    statusValue = task.status;
+    // notifyListeners();
+  }
+
+  Future updateTaskFunc(collectionName, int id) async {
+    Task task = Task(
+        taskId: id,
+        taskTitle: taskTitleController.text.trim(),
+        description: descriptionController.text.trim(),
+        prority: priorityValue,
+        status: statusValue,
+        collectionName: collectionName);
+
+    await DbService.updateTask(task);
+
+    // Clean = >  statusLists, controller, values
+    await getAllTasksFunc(collectionName);
+    resetController();
+    resetValues();
+  }
 
   reorderListFunc(int oldIndex, int newIndex, String taskStatus) {
     if (oldIndex < newIndex) {
