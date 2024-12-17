@@ -264,7 +264,13 @@ class TaskListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
+      child: ReorderableListView.builder(
+        buildDefaultDragHandles: false,
+        onReorder: (oldIndex, newIndex) {
+          context
+              .read<TaskPanelProvider>()
+              .reorderListFunc(oldIndex, newIndex, taskList[0].status);
+        },
         itemCount: length,
         itemBuilder: (context, index) {
           final task = taskList[index];
@@ -279,53 +285,56 @@ class TaskListWidget extends StatelessWidget {
 
               break;
           }
-          return Card(
-            borderOnForeground: false,
-            color: AppTheme.dark,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 60.0,
-              child: Row(
-                children: [
-                  Container(
-                    width: 20.0,
-                    decoration: BoxDecoration(
-                        color: intColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0),
-                        )),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        task.taskTitle,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: GoogleFonts.comicNeue(
-                          color: AppTheme.light.withOpacity(0.8),
+          return ReorderableDragStartListener(
+            key: ValueKey(task.taskId),
+            index: index,
+            child: Card(
+              color: AppTheme.dark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 60.0,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 20.0,
+                      decoration: BoxDecoration(
+                          color: intColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            bottomLeft: Radius.circular(10.0),
+                          )),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          task.taskTitle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: GoogleFonts.comicNeue(
+                            color: AppTheme.light.withOpacity(0.8),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final taskPanelProvider =
-                          context.read<TaskPanelProvider>();
-                      await taskPanelProvider.deleteTaskFunc(
-                          task.taskId, task.collectionName);
-                    },
-                    icon: Icon(
-                      Icons.delete_outline,
-                      color: AppTheme.light,
-                      size: 16.0,
+                    IconButton(
+                      onPressed: () async {
+                        final taskPanelProvider =
+                            context.read<TaskPanelProvider>();
+                        await taskPanelProvider.deleteTaskFunc(
+                            task.taskId, task.collectionName);
+                      },
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: AppTheme.light,
+                        size: 16.0,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

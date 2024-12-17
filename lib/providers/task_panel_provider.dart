@@ -79,6 +79,32 @@ class TaskPanelProvider extends ChangeNotifier {
 
   Future updateTaskFunc() async {}
 
+  reorderListFunc(int oldIndex, int newIndex, String taskStatus) {
+    if (oldIndex < newIndex) {
+      newIndex--;
+    }
+
+    switch (taskStatus) {
+      case "pending":
+        final item = pending.removeAt(oldIndex);
+        pending.insert(newIndex, item);
+
+        break;
+
+      case "in progress":
+        final item = inProcess.removeAt(oldIndex);
+        inProcess.insert(newIndex, item);
+        break;
+
+      case "completed":
+        final item = completed.removeAt(oldIndex);
+        completed.insert(newIndex, item);
+        break;
+    }
+
+    notifyListeners();
+  }
+
   resetProvider() {
     initialLoader = true;
     resetStatusList();
