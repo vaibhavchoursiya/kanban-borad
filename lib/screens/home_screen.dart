@@ -40,10 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppTheme.dark,
       body: Row(
         children: [
-          Container(
-            width: 80.0,
-            color: Colors.white,
-            child: const MenuSetting(),
+          // Container(
+          //   width: 80.0,
+          //   color: Colors.white,
+          //   child: const MenuSetting(),
+          // ),
+          const SizedBox(
+            width: 50.0,
           ),
           Expanded(
             child: Padding(
@@ -57,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // HEADING----------------------------
                   Text(
                     "Welcome to Kanban Board",
-                    style: GoogleFonts.aDLaMDisplay(
+                    style: GoogleFonts.comicNeue(
                       fontSize: 34.0,
                       color: AppTheme.light,
                       shadows: [
@@ -70,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     "All your collections will show here!",
-                    style: GoogleFonts.aDLaMDisplay(
+                    style: GoogleFonts.comicNeue(
                       color: AppTheme.light.withOpacity(0.6),
                     ),
                   ),

@@ -67,7 +67,7 @@ class CollectionCard extends StatelessWidget {
                             collectionName,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: GoogleFonts.aDLaMDisplay(
+                            style: GoogleFonts.comicNeue(
                               color: AppTheme.light,
                             ),
                           ),

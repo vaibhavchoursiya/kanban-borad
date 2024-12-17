@@ -29,7 +29,7 @@ class _HeaderRowState extends State<HeaderRow> {
                     backgroundColor: AppTheme.dark,
                     title: Text(
                       'Collection',
-                      style: GoogleFonts.aDLaMDisplay(
+                      style: GoogleFonts.comicNeue(
                         color: AppTheme.light,
                       ),
                     ),

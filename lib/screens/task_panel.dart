@@ -40,17 +40,21 @@ class _TaskPanelState extends State<TaskPanel> {
     return Scaffold(
       backgroundColor: AppTheme.dark,
       appBar: AppBar(
+        backgroundColor: AppTheme.dark,
         leading: IconButton(
             onPressed: () {
               final taskPanelProvider = context.read<TaskPanelProvider>();
               taskPanelProvider.resetProvider();
               context.go("/home");
             },
-            icon: const Icon(Icons.arrow_back_ios_new_outlined)),
+            icon: Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: AppTheme.light,
+            )),
         centerTitle: true,
         title: Text(
-          "Task Panel",
-          style: GoogleFonts.aDLaMDisplay(),
+          "Task Panel For ${widget.collectionName}",
+          style: GoogleFonts.comicNeue(color: AppTheme.light),
         ),
       ),
       body: (initlialLoader)
@@ -59,45 +63,55 @@ class _TaskPanelState extends State<TaskPanel> {
                 color: AppTheme.light,
               ),
             )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TaskColumn(
-                  headColor: Colors.red,
-                  headText: "pending",
-                  length: pendingList.length,
-                  taskList: context.read<TaskPanelProvider>().pending,
-                  // cardColor: AppTheme.primary,
-                  cardColor: Colors.black54,
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2 * 0.20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TaskColumn(
+                        headColor: Colors.red,
+                        headText: "pending",
+                        length: pendingList.length,
+                        taskList: context.read<TaskPanelProvider>().pending,
+                        // cardColor: AppTheme.primary,
+                        cardColor: Colors.black54,
 
-                  collectionName: widget.collectionName,
-                ),
-                const SizedBox(
-                  width: 16.0,
-                ),
-                TaskColumn(
-                  headColor: Colors.yellow.shade700.withOpacity(0.9),
-                  headText: "in progress",
-                  length: inProgress.length,
-                  taskList: context.read<TaskPanelProvider>().inProcess,
-                  cardColor: Colors.black54,
-                  collectionName: widget.collectionName,
-                ),
-                const SizedBox(
-                  width: 16.0,
-                ),
-                TaskColumn(
-                  headColor: Colors.green,
+                        collectionName: widget.collectionName,
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
+                      TaskColumn(
+                        headColor: Colors.yellow.shade700.withOpacity(0.9),
+                        headText: "in progress",
+                        length: inProgress.length,
+                        taskList: context.read<TaskPanelProvider>().inProcess,
+                        cardColor: Colors.black54,
+                        collectionName: widget.collectionName,
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
+                      TaskColumn(
+                        headColor: Colors.green,
 
-                  headText: "completed",
-                  length: completedList.length,
-                  taskList: context.read<TaskPanelProvider>().completed,
-                  // cardColor: Colors.greenAccent,
-                  cardColor: Colors.black54,
+                        headText: "completed",
+                        length: completedList.length,
+                        taskList: context.read<TaskPanelProvider>().completed,
+                        // cardColor: Colors.greenAccent,
+                        cardColor: Colors.black54,
 
-                  collectionName: widget.collectionName,
-                ),
-              ],
+                        collectionName: widget.collectionName,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
     );
   }
@@ -129,7 +143,7 @@ class TaskColumn extends StatelessWidget {
             backgroundColor: AppTheme.dark,
             title: Text(
               "Add Task",
-              style: GoogleFonts.aDLaMDisplay(
+              style: GoogleFonts.comicNeue(
                 color: AppTheme.light,
               ),
             ),

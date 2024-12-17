@@ -158,7 +158,7 @@ class MTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         label: Text(
           label,
-          style: GoogleFonts.aDLaMDisplay(),
+          style: GoogleFonts.comicNeue(),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),

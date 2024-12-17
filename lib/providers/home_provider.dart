@@ -23,6 +23,7 @@ class HomeProvider extends ChangeNotifier {
   Future<void> createCollectionFunc() async {
     await DbService.addCollectionName(collectionName.text.trim());
     await getAllCollectionNamesFunc();
+    collectionName.clear();
     notifyListeners();
   }
 
