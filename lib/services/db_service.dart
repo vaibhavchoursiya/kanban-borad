@@ -42,17 +42,27 @@ class DbService {
       description TEXT,
       prority TEXT,
       status TEXT,
-      deadline TEXT,
       collectionName TEXT
 );
 ''');
   }
 
-  static Future<void> addItem(Task task, String collectionName) async {
-    await db.execute('''
-      INSERT INTO kanban(taskTitle, description, prority, status, deadline, collectionName)
-      VALUES("${task.taskTitle}", "${task.description}", "${task.prority}", "${task.status}", "${task.deadline}","$collectionName");
+  static Future<void> addTask(Task task) async {
+    await db.rawInsert('''
+      INSERT INTO kanban(taskTitle, description, prority, status, collectionName)
+      VALUES("${task.taskTitle}", "${task.description}", "${task.prority}", "${task.status}", "${task.collectionName}");
 ''');
+  }
+
+  static Future getAllTasks(String collectionName) async {
+    final List query = await db.rawQuery(
+        '''SELECT * FROM kanban WHERE collectionName = "$collectionName"''');
+
+    return query;
+  }
+
+  static Future deleteTask(int id) async {
+    await db.rawDelete('''DELETE FROM kanban WHERE id = ?''', [id]);
   }
 
   // add, delete, update, get all

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kanban_board/providers/home_provider.dart';
+import 'package:kanban_board/providers/task_panel_provider.dart';
 import 'package:kanban_board/routes.dart';
 import 'package:kanban_board/services/db_service.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => TaskPanelProvider(),
+        )
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
