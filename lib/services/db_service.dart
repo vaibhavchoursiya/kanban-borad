@@ -97,6 +97,17 @@ class DbService {
     return cns;
   }
 
+  // update in collectionNames and kanban Table.
+  static Future updateCollectionName(
+      oldCollectionName, newCollectionName) async {
+    await db.rawUpdate('''UPDATE collectionNames SET cn = ? WHERE cn = ?''',
+        [newCollectionName, oldCollectionName]);
+
+    await db.rawUpdate(
+        '''UPDATE kanban SET collectionName = ? WHERE collectionName = ?''',
+        [newCollectionName, oldCollectionName]);
+  }
+
   static Future<void> deleteCollection(String collectionName) async {
     try {
       await db.execute(

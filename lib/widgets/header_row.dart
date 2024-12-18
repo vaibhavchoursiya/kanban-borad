@@ -47,22 +47,25 @@ class _HeaderRowState extends State<HeaderRow> {
                       ),
                     ),
                     actions: [
-                      MaterialButton(
-                        textColor: Colors.black,
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: AppTheme.light),
                         onPressed: () {
                           final homeProvider = context.read<HomeProvider>();
                           homeProvider.resetControllers();
                           context.pop();
                         },
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                          ),
+                        label: Text(
+                          'cancel',
+                          style: GoogleFonts.comicNeue(
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      MaterialButton(
-                        textColor: Colors.black,
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: AppTheme.light),
                         onPressed: () async {
                           if (formkey.currentState!.validate()) {
                             final homeProvider = context.read<HomeProvider>();
@@ -72,11 +75,10 @@ class _HeaderRowState extends State<HeaderRow> {
                             }
                           }
                         },
-                        child: const Text(
-                          'Create',
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
+                        label: Text(
+                          'create',
+                          style: GoogleFonts.comicNeue(
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],

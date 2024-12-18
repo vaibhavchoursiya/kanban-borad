@@ -10,6 +10,12 @@ class HomeProvider extends ChangeNotifier {
   }
 
   final TextEditingController collectionName = TextEditingController();
+  final TextEditingController renameCollectionController =
+      TextEditingController();
+
+  resetRenameController() {
+    renameCollectionController.clear();
+  }
 
   resetControllers() {
     collectionName.clear();
@@ -39,6 +45,14 @@ class HomeProvider extends ChangeNotifier {
   Future<void> getAllCollectionNamesFunc() async {
     collectionNames = await DbService.getAllCollectionNames();
     notifyListeners();
+  }
+
+  Future updateCollectionName(String oldCollectionName) async {
+    await DbService.updateCollectionName(
+        oldCollectionName, renameCollectionController.text.trim());
+    renameCollectionController.clear();
+
+    await getAllCollectionNamesFunc();
   }
 
   resetProvider() {
