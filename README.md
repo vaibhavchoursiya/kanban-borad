@@ -1,16 +1,13 @@
-# kanban_board
+# Kanban Board
 
-A new Flutter project.
+![Status](https://img.shields.io/badge/status-in_development-green)
+![Release](https://img.shields.io/badge/release-1.0.0-blue)
 
-## Getting Started
+<p align="center">
+    <img src="assets/app_icon.png" alt="Icon"  width= 250 height= 250/>
+</p>
 
-This project is a starting point for a Flutter application.
+## Screenshots
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![kanban_board](assets/kanban_home.png)
+![task_panel](assets/task_panel.png)
