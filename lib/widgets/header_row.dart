@@ -23,6 +23,7 @@ class _HeaderRowState extends State<HeaderRow> {
         ElevatedButton.icon(
           onPressed: () async {
             await showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return AlertDialog(

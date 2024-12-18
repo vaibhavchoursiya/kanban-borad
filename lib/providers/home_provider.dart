@@ -27,8 +27,8 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> createCollectionFunc() async {
     await DbService.addCollectionName(collectionName.text.trim());
-    await getAllCollectionNamesFunc();
     resetControllers();
+    await getAllCollectionNamesFunc();
   }
 
   Future<void> deleteCollectionFunc(String collectionName) async {
