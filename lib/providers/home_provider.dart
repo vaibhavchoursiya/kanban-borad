@@ -10,6 +10,11 @@ class HomeProvider extends ChangeNotifier {
   }
 
   final TextEditingController collectionName = TextEditingController();
+
+  resetControllers() {
+    collectionName.clear();
+  }
+
   List collectionNames = [];
 
   String? collectionNameValidator(String? value) {
@@ -23,18 +28,22 @@ class HomeProvider extends ChangeNotifier {
   Future<void> createCollectionFunc() async {
     await DbService.addCollectionName(collectionName.text.trim());
     await getAllCollectionNamesFunc();
-    collectionName.clear();
-    notifyListeners();
+    resetControllers();
   }
 
   Future<void> deleteCollectionFunc(String collectionName) async {
     await DbService.deleteCollection(collectionName);
     await getAllCollectionNamesFunc();
-    notifyListeners();
   }
 
   Future<void> getAllCollectionNamesFunc() async {
     collectionNames = await DbService.getAllCollectionNames();
+    notifyListeners();
+  }
+
+  resetProvider() {
+    initialLoader = true;
+    resetControllers();
   }
 
   @override

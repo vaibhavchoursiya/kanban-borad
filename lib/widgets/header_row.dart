@@ -49,6 +49,8 @@ class _HeaderRowState extends State<HeaderRow> {
                       MaterialButton(
                         textColor: Colors.black,
                         onPressed: () {
+                          final homeProvider = context.read<HomeProvider>();
+                          homeProvider.resetControllers();
                           context.pop();
                         },
                         child: const Text(

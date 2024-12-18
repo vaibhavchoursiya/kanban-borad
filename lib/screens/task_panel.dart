@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kanban_board/app_theme.dart';
 import 'package:kanban_board/comman_widgets/task_dialog_box.dart';
+import 'package:kanban_board/providers/home_provider.dart';
 import 'package:kanban_board/providers/task_panel_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,10 @@ class _TaskPanelState extends State<TaskPanel> {
         leading: IconButton(
             onPressed: () {
               final taskPanelProvider = context.read<TaskPanelProvider>();
+              final homeProvider = context.read<HomeProvider>();
               taskPanelProvider.resetProvider();
+              homeProvider.resetProvider();
+
               context.go("/home");
             },
             icon: Icon(
